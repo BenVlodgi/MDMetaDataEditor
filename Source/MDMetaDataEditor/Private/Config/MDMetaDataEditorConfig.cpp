@@ -10,6 +10,8 @@
 #include "WidgetBlueprint.h"
 #include "MDMetaDataEditorModule.h"
 
+#define LOCTEXT_NAMESPACE "MDMetaDataEditor"
+
 UMDMetaDataEditorConfig::UMDMetaDataEditorConfig()
 {
 	// Setup some useful defaults, with some ugly code
@@ -110,7 +112,7 @@ UMDMetaDataEditorConfig::UMDMetaDataEditorConfig()
 		{ UEdGraphSchema_K2::PC_Struct, NAME_None, FGameplayTagContainer::StaticStruct() }
 	};
 	MetaDataKeys.Append({
-		FMDMetaDataKey{ TEXT("Categories"), EMDMetaDataEditorKeyType::GameplayTagContainer, TEXT("Limit which gameplay tags may be selected to one or more specific root tags.") }.SetSupportedProperties(GameplayTagTypes)
+		FMDMetaDataKey{ TEXT("Categories"), EMDMetaDataEditorKeyType::GameplayTagContainer, TEXT("Limit which gameplay tags may be selected to one or more specific root tags.") }.SetSupportedProperties(GameplayTagTypes).SetDisplayNameOverride(LOCTEXT("Categories_DisplayName","Tag Filter"))
 	});
 
 	// Primary Asset IDs
@@ -280,3 +282,5 @@ TArray<FName> UMDMetaDataEditorConfig::GetMetaDataKeyNames() const
 
 	return Result;
 }
+
+#undef LOCTEXT_NAMESPACE
