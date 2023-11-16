@@ -10,7 +10,7 @@
  * Base Class for creating a Meta Data value editor Widget.
  */
 UCLASS(Abstract)
-class EXTENDEDDETAILSPANELEDITOR_API UMetaDataValueWidget : public UEditorUtilityWidget
+class UMetaDataValueWidget : public UEditorUtilityWidget
 {
 	GENERATED_BODY()
 	
