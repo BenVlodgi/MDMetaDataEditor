@@ -13,6 +13,7 @@ public class MDMetaDataEditor : ModuleRules
 			{
 				"ApplicationCore",
 				"BlueprintGraph",
+				"Blutility",
 				"Core",
 				"CoreUObject",
 				"DeveloperSettings",
