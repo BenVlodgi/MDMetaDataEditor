@@ -180,7 +180,7 @@ UMDMetaDataEditorConfig::UMDMetaDataEditorConfig()
 	};
 	MetaDataKeys.Append({
 		FMDMetaDataKey{ TEXT("AllowAbstract"), EMDMetaDataEditorKeyType::Flag, TEXT("Include abstract classes in the class picker for this property.") }.SetSupportedProperties(ClassTypes),
-		FMDMetaDataKey{ TEXT("ShowTreeView"), EMDMetaDataEditorKeyType::Flag, TEXT("Show a tree of class inheritence instead of a list view for the class picker.") }.SetSupportedProperties(ClassTypes),
+		FMDMetaDataKey{ TEXT("ShowTreeView"), EMDMetaDataEditorKeyType::Flag, TEXT("Show a tree of class inheritence instead of a list view for the class picker.") }.SetSupportedProperties(ClassTypes).CanBeUsedOnFunctionParameters(false),
 		FMDMetaDataKey{ TEXT("BlueprintBaseOnly"), EMDMetaDataEditorKeyType::Flag, TEXT("Only allow selecting blueprint classes.") }.SetSupportedProperties(ClassTypes),
 		FMDMetaDataKey{ TEXT("ExactClass"), EMDMetaDataEditorKeyType::Flag, TEXT("Only allow selecting specifically from the list of allowed classes, no subclasses.") }.SetSupportedProperties(ClassTypes).SetRequiredMetaData(TEXT("AllowedClasses")),
 		FMDMetaDataKey{ TEXT("MustImplement"), EMDMetaDataEditorKeyType::String, TEXT("Only allow classes that inherit the specified interface.") }.SetSupportedProperties(ClassTypes)
@@ -197,7 +197,13 @@ UMDMetaDataEditorConfig::UMDMetaDataEditorConfig()
 
 	// Functions Only
 	MetaDataKeys.Append({
-		FMDMetaDataKey{ TEXT("DefaultToSelf"), EMDMetaDataEditorKeyType::String, TEXT("Specify which function parameter should default to \"self\".") }.SetFunctionsOnly()
+		FMDMetaDataKey{ TEXT("DefaultToSelf"), EMDMetaDataEditorKeyType::String, TEXT("Specify which function parameter should default to \"self\".") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("HideSelfPin"), EMDMetaDataEditorKeyType::Flag, TEXT("Hides the \"self\" pin, which indicates the object on which the function is being called. The \"self\" pin is automatically hidden on BlueprintPure functions that are compatible with the calling Blueprint's Class. Functions that use the HideSelfPin Meta Tag frequently also use the DefaultToSelf Specifier.") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("DeterminesOutputType"), EMDMetaDataEditorKeyType::String, TEXT("The return type of the function will dynamically change to match the input that is connected to the named parameter pin. The parameter should be a templated type like TSubClassOf<X> or TSoftObjectPtr<X>, where the function's original return type is X* or a container with X* as the value type, such as TArray<X*>.") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("DynamicOutputParam"), EMDMetaDataEditorKeyType::String, TEXT("Used in conjunction with \"DeterminesOutputType\", to specify an output parameter that should have its type auto-cast instead of the function's ReturnValue.") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("ExpandEnumAsExecs"), EMDMetaDataEditorKeyType::String, TEXT("Set to the name of an enum out-parameter. The function will split the execution output based on the value of the enum.") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("ExpandBoolAsExecs"), EMDMetaDataEditorKeyType::String, TEXT("Set to the name of an boolean out-parameter. The function will split the execution output based on the value of the bool.") }.SetFunctionsOnly(),
+		FMDMetaDataKey{ TEXT("DevelopmentOnly"), EMDMetaDataEditorKeyType::Flag, TEXT("This function will only run in Development mode. Useful for functionality like debug output, which is expected not to exist in shipped products.") }.SetFunctionsOnly()
 	});
 
 	// Objects and PrimaryAssetID
@@ -208,7 +214,7 @@ UMDMetaDataEditorConfig::UMDMetaDataEditorConfig()
 	MetaDataKeys.Append({
 		FMDMetaDataKey{ TEXT("DisplayThumbnail"), EMDMetaDataEditorKeyType::Boolean, TEXT("Whether or not to display the asset thumbnail.") }.SetSupportedProperties(AssetTypes),
 		FMDMetaDataKey{ TEXT("AllowedClasses"), EMDMetaDataEditorKeyType::String, TEXT("Filter the selection to classes that inherit from specific classes or implement specific interfaces.") }.SetSupportedProperties(AssetTypes),
-		FMDMetaDataKey{ TEXT("DisallowedClasses"), EMDMetaDataEditorKeyType::String, TEXT("Filter out classes that inherit from specific classes or implement specific interfaces from the selection.") }.SetSupportedProperties(AssetTypes)
+		FMDMetaDataKey{ TEXT("DisallowedClasses"), EMDMetaDataEditorKeyType::String, TEXT("Filter out classes that inherit from specific classes or implement specific interfaces from the selection.") }.SetSupportedProperties(AssetTypes).CanBeUsedOnFunctionParameters(false)
 	});
 
 	// USTRUCT
